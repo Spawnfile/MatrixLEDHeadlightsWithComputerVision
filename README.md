@@ -17,7 +17,7 @@ Headlights control with computer vision using AI and python.
 
 -Hardware connections between Raspberry-Driver-PC
 
-#Developers
+# Developers
 
 -Alper EKMEKCİ
 
