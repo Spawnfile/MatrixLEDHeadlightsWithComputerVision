@@ -43,7 +43,7 @@ def main():
     print("HEIGHT :", cam_height)
     
     """
-    pc kamerasi için: 
+    pc kamerasi icin: 
     width : 640
     heigt : 480
 
@@ -67,14 +67,18 @@ def main():
                 cv2.line(images[i], line_2_1, line_2_2, (255, 0, 0))
                 cv2.imshow('video with bboxes', images[i])
 
-                if bbox.any() != None:
-                    #detection varsa
-                    print("Detection is True")
-                    #do something
-                elif bbox == None:
-                    #detection yok
-                    print("Detection is False")
-                    #do something
+                try:
+                    if bbox.any() != None:
+                        #detection varsa
+                        print("Detection is True")
+                        #do something
+                        #detection yok
+                        #print("Detection is False")
+                        #do something
+                except:
+                    print("detection yok")
+                    pass
+                
                 print('FPS {:.1f}'.format(1 / (time.time() - stime))) 
             images = []
             print("ikinci resim")
