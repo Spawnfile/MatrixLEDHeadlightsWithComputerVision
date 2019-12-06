@@ -3,7 +3,7 @@ Headlights control with computer vision using AI and python.
 
 # To Do's
 
--Preparing a person detector network with keras
+- [] Preparing a person detector network with keras
 
 --Modifying keras-yolo3 repo for taking labels and bounding box coordinates.
 
