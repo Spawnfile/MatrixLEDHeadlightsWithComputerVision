@@ -9,7 +9,6 @@ class BoundBox:
         self.ymin = ymin
         self.xmax = xmax
         self.ymax = ymax
-        
         self.c       = c
         self.classes = classes
 
@@ -57,6 +56,7 @@ def bbox_iou(box1, box2):
     return float(intersect) / union
 
 def draw_boxes(image, boxes, labels, obj_thresh, quiet=True):
+    
     for box in boxes:
         label_str = ''
         label = -1
@@ -75,19 +75,27 @@ def draw_boxes(image, boxes, labels, obj_thresh, quiet=True):
                                [box.xmin-3,        box.ymin-height-26], 
                                [box.xmin+width+13, box.ymin-height-26], 
                                [box.xmin+width+13, box.ymin]], dtype='int32')  
-
+            xmax = np.array([box.xmax])
+            ymax = np.array([box.ymax])
             cv2.rectangle(img=image, pt1=(box.xmin,box.ymin), pt2=(box.xmax,box.ymax), color=get_color(label), thickness=5)
             cv2.fillPoly(img=image, pts=[pixel_coordinates], color=get_color(label))
+            print("xmax FROM BBOX.py = ", box.xmax)
+            print("xmin FROM BBOX.py = ", box.xmin)
+            print("ORTA NOKTA FROM BBOX.py = ", (box.xmin + box.xmax)/2)
             cv2.putText(img=image, 
                         text=label_str, 
                         org=(box.xmin+13, box.ymin - 13), 
                         fontFace=cv2.FONT_HERSHEY_SIMPLEX, 
                         fontScale=1e-3 * image.shape[0], 
                         color=(0,0,0), 
-                        thickness=2)
-    try:
-        print(pixel_coordinates) #detection var
-        return image, pixel_coordinates
+                        thickness=2)    
+
+    try:     
+        #Detection is True
+        return image, pixel_coordinates, xmax, ymax
     except:
-        pixel_coordinates = None #detection yok
-        return image, pixel_coordinates
+        #Detection is False
+        pixel_coordinates = None
+        xmax = None
+        ymax = None
+        return image, pixel_coordinates, xmax, ymax
