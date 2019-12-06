@@ -5,7 +5,7 @@ Headlights control with computer vision using AI and python.
 
 - [x] Preparing a person detector network with keras
 
-- [x]Modifying keras-yolo3 repo for taking labels and bounding box coordinates.
+- [x] Modifying keras-yolo3 repo for taking labels and bounding box coordinates.
 
 - [ ] Write an algorithm for bounding box and Leds PWM relation.
 
