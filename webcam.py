@@ -13,7 +13,7 @@ import time
 import math
 
 def main():
-    config_path  = "config_voc.json"
+    config_path  = "src/config_voc.json"
 
     with open(config_path) as config_buffer:    
         config = json.load(config_buffer)
@@ -47,7 +47,7 @@ def main():
     width : 640
     heigt : 480
 
-    webcam için:
+    webcam icin:
     width : 1280
     height : 720
     """
