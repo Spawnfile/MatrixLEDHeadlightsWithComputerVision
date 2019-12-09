@@ -57,7 +57,15 @@ def main():
     width : 640
     heigt : 480
 
+<<<<<<< HEAD
     External Cam Resolution
+=======
+<<<<<<< HEAD
+    External Cam Resolution
+=======
+    webcam icin:
+>>>>>>> d073d7cea9c3be54176ae9f28f5878b7421fa597
+>>>>>>> 2e1410d96396334c0ecd80ce89bc92af94436383
     width : 1280
     height : 720
     """
@@ -95,6 +103,7 @@ def main():
                     #DETECTION IS TRUE BLOCK 
                     if bbox.any() != None:
                         print("Detection is True")
+<<<<<<< HEAD
                         #0-640 arası degerler degisecek
                         if (mid_point > 0) and (mid_point <):
                             #send udp
@@ -116,6 +125,9 @@ def main():
                             #message = ...
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+=======
+
+>>>>>>> 2e1410d96396334c0ecd80ce89bc92af94436383
                     #DETECTION IS FALSE BLOCK
                 except:
                     print("detection yok")
