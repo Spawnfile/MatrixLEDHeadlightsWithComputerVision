@@ -16,6 +16,11 @@ from tqdm import tqdm
 import numpy as np
 import time 
 import math
+import socket
+
+UDP_IP = "xxxx" #RASPI IP ADRESİ
+UDP_PORT = 8888
+
 
 def main():
     config_path  = "config_voc.json"
@@ -90,7 +95,27 @@ def main():
                     #DETECTION IS TRUE BLOCK 
                     if bbox.any() != None:
                         print("Detection is True")
-
+                        #0-640 arası degerler degisecek
+                        if (mid_point > 0) and (mid_point <):
+                            #send udp
+                            #message = ...
+                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+                        elif mid_point > 0) and (mid_point <):
+                            #send udp
+                            #message = ....encode()
+                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+                        elif mid_point > 0) and (mid_point <):
+                            #send udp
+                            #message = ...
+                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+                        elif mid_point > 0) and (mid_point <):
+                            #send udp
+                            #message = ...
+                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
                     #DETECTION IS FALSE BLOCK
                 except:
                     print("detection yok")
