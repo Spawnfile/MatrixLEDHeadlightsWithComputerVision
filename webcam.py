@@ -18,7 +18,7 @@ import time
 import math
 import socket
 
-UDP_IP = "xxxx" #RASPI IP ADRESİ
+UDP_IP = "xxxx" #RASPI IP ADRESS
 UDP_PORT = 8888
 
 
@@ -30,8 +30,6 @@ def main():
     net_h, net_w = 64, 64 
     obj_thresh, nms_thresh = 0.5, 0.45
 
-    #os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
-    #print(os.environ
     infer_model = load_model(config['train']['saved_weights_name'])
     cap = cv2.VideoCapture(0)
     #cap = cv2.VideoCapture('test.mp4')
@@ -56,16 +54,10 @@ def main():
     PC Cam Resolution: 
     width : 640
     heigt : 480
+    """
 
-<<<<<<< HEAD
-    External Cam Resolution
-=======
-<<<<<<< HEAD
-    External Cam Resolution
-=======
-    webcam icin:
->>>>>>> d073d7cea9c3be54176ae9f28f5878b7421fa597
->>>>>>> 2e1410d96396334c0ecd80ce89bc92af94436383
+    """
+    External Webcam Resolution:
     width : 1280
     height : 720
     """
@@ -89,10 +81,7 @@ def main():
                     mid_point_line_1 = (mid_point, ymax + 10)
                     mid_point_line_2 = (mid_point, ymax - 30) 
                     cv2.line(images[i], mid_point_line_1, mid_point_line_2, (0, 255, 0))
-                """
-                except:
-                    print("Detection False First Control")
-                """
+
                 cv2.line(images[i], line_1_1, line_1_2, (255, 0, 0))
                 cv2.line(images[i], line_2_1, line_2_2, (255, 0, 0))
                 cv2.namedWindow("Video Stream", cv2.WND_PROP_FULLSCREEN)
@@ -103,7 +92,6 @@ def main():
                     #DETECTION IS TRUE BLOCK 
                     if bbox.any() != None:
                         print("Detection is True")
-<<<<<<< HEAD
                         #0-640 arası degerler degisecek
                         if (mid_point > 0) and (mid_point <):
                             #send udp
@@ -125,11 +113,10 @@ def main():
                             #message = ...
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-=======
 
->>>>>>> 2e1410d96396334c0ecd80ce89bc92af94436383
-                    #DETECTION IS FALSE BLOCK
+                    
                 except:
+                    #DETECTION IS FALSE BLOCK
                     print("detection yok")
                     print(bbox)
 
