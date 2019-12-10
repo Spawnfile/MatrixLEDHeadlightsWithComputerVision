@@ -96,20 +96,20 @@ def main():
                         print("Detection is True")
                         #0-640 arası degerler degisecek
                         if (mid_point > 0) and (mid_point < first_slice):
-                            MESSAGE = "ilk_parca"
+                            MESSAGE = "first_pwm"
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                            print("PWM_1 yakıldı")
+                            print("PWM_1")
                         elif (mid_point >= first_slice) and (mid_point < second_slice):
-                            MESSAGE = "ikinci_parca"
+                            MESSAGE = "second_pwm"
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                            print("PWM_2 yakıldı")                        
+                            print("PWM_2")                        
                         elif (mid_point >= second_slice):
-                            MESSAGE = "oropsu_mehmet"
+                            MESSAGE = "third_pwm"
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                            print("PWM_3 yakıldı")
+                            print("PWM_3")
                             
                     #DETECTION IS FALSE BLOCK
                 except:
