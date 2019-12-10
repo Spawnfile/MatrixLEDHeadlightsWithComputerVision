@@ -18,7 +18,7 @@ import time
 import math
 import socket
 
-UDP_IP = "xxxx" #RASPI IP ADRESS
+UDP_IP = "xxxx" #RASPI IP ADRESİ
 UDP_PORT = 8888
 
 
@@ -30,6 +30,8 @@ def main():
     net_h, net_w = 64, 64 
     obj_thresh, nms_thresh = 0.5, 0.45
 
+    #os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
+    #print(os.environ
     infer_model = load_model(config['train']['saved_weights_name'])
     cap = cv2.VideoCapture(0)
     #cap = cv2.VideoCapture('test.mp4')
@@ -55,9 +57,9 @@ def main():
     width : 640
     heigt : 480
     """
-
+    
     """
-    External Webcam Resolution:
+    External Cam Resolution
     width : 1280
     height : 720
     """
@@ -93,30 +95,24 @@ def main():
                     if bbox.any() != None:
                         print("Detection is True")
                         #0-640 arası degerler degisecek
-                        if (mid_point > 0) and (mid_point <):
-                            #send udp
-                            #message = ...
+                        if (mid_point > 0) and (mid_point < first_slice):
+                            MESSAGE = "ilk_parca"
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                        elif mid_point > 0) and (mid_point <):
-                            #send udp
-                            #message = ....encode()
+                            print("PWM_1 yakıldı")
+                        elif (mid_point >= first_slice) and (mid_point < second_slice):
+                            MESSAGE = "ikinci_parca"
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                        elif mid_point > 0) and (mid_point <):
-                            #send udp
-                            #message = ...
+                            print("PWM_2 yakıldı")                        
+                        elif (mid_point >= second_slice):
+                            MESSAGE = "oropsu_mehmet"
                             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                             sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                        elif mid_point > 0) and (mid_point <):
-                            #send udp
-                            #message = ...
-                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-
-                    
-                except:
+                            print("PWM_3 yakıldı")
+                            
                     #DETECTION IS FALSE BLOCK
+                except:
                     print("detection yok")
                     print(bbox)
 
