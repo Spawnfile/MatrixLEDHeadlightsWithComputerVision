@@ -7,11 +7,13 @@ Headlights control with computer vision using AI and python.
 
 - [x] Modifying keras-yolo3 repo for taking labels and bounding box coordinates.
 
-- [ ] Write an algorithm for bounding box and Leds PWM relation.
+- [x] Write an algorithm for bounding box and Leds PWM relation.
 
-- [ ] Send bounding box coordinates to raspberry via UDP.
+- [x] Send bounding box coordinates to raspberry via UDP.
 
-- [ ] Write a PWM code according to coming bounding box coordinates.
+- [x] Write a PWM code according to coming bounding box coordinates.
+
+- [ ] Preparing listener code for RASPI.
 
 - [ ] Make a PCB for Led Driver.
 
@@ -22,4 +24,5 @@ Headlights control with computer vision using AI and python.
 -Alper EKMEKCİ
 
 -Mehmet TÜKENMEZ
+
 
