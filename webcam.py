@@ -18,24 +18,25 @@ import time
 import math
 import socket
 
-UDP_IP = "xxxx" #RASPI IP ADRESİ
+UDP_IP = "192.168.1.20" #RASPI IP ADRESİ
 UDP_PORT = 8888
 
 
 def main():
-    config_path  = "config_voc.json"
+    config_path  = "src/config_voc.json"
 
     with open(config_path) as config_buffer:    
         config = json.load(config_buffer)
-    net_h, net_w = 64, 64 
+    net_h, net_w = 128, 128 
     obj_thresh, nms_thresh = 0.5, 0.45
 
-    #os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
-    #print(os.environ
+
     infer_model = load_model(config['train']['saved_weights_name'])
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     #cap = cv2.VideoCapture('test.mp4')
     images = []
+    cap.set(3, 1280)
+    cap.set(4, 720)
     cam_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     cam_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
@@ -67,14 +68,14 @@ def main():
     while True:
         ret, image = cap.read()
         stime = time.time()
-        if ret: 
+        if ret:
             images += [image]
             batch_boxes = get_yolo_boxes(infer_model, images, net_h, net_w, config['model']['anchors'], obj_thresh, nms_thresh)
 
             for i in range(len(images)):
                 images[i], bbox, xmax, ymax = draw_boxes(images[i], batch_boxes[i], config['model']['labels'], obj_thresh)  
                 if xmax != None:
-                    print("Detection True First Kontrol")
+                    print("Detection True")
                     print("XMAX :", xmax[0])
                     print("YMAX :", ymax[0])
                     print("XMIN : ", bbox[0][0])
@@ -82,43 +83,36 @@ def main():
                     mid_point = math.ceil((xmax[0]+(bbox[0][0] + 3)) / 2)
                     mid_point_line_1 = (mid_point, ymax + 10)
                     mid_point_line_2 = (mid_point, ymax - 30) 
-                    cv2.line(images[i], mid_point_line_1, mid_point_line_2, (0, 255, 0))
+                    cv2.line(images[i], mid_point_line_1, mid_point_line_2, (0, 255, 0))        
+                    print("Detection is True")
+                    #0-640 arası degerler degisecek
+                    if (mid_point > 0) and (mid_point < first_slice):
+                        MESSAGE = "first_pwm".encode()
+                        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                        sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+                        print("PWM_1")
+                        break
+                    elif (mid_point >= first_slice) and (mid_point < second_slice):
+                        MESSAGE = "second_pwm".encode()
+                        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                        sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+                        print("PWM_2")
+                        break                        
+                    elif (mid_point >= second_slice):
+                        MESSAGE = "third_pwm".encode()
+                        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                        sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+                        print("PWM_3")
+                        break
 
-                cv2.line(images[i], line_1_1, line_1_2, (255, 0, 0))
-                cv2.line(images[i], line_2_1, line_2_2, (255, 0, 0))
-                cv2.namedWindow("Video Stream", cv2.WND_PROP_FULLSCREEN)
-                cv2.setWindowProperty("Video Stream", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-                cv2.imshow('Video Stream', images[i])
-
-                try:
-                    #DETECTION IS TRUE BLOCK 
-                    if bbox.any() != None:
-                        print("Detection is True")
-                        #0-640 arası degerler degisecek
-                        if (mid_point > 0) and (mid_point < first_slice):
-                            MESSAGE = "first_pwm"
-                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                            print("PWM_1")
-                        elif (mid_point >= first_slice) and (mid_point < second_slice):
-                            MESSAGE = "second_pwm"
-                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                            print("PWM_2")                        
-                        elif (mid_point >= second_slice):
-                            MESSAGE = "third_pwm"
-                            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                            sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-                            print("PWM_3")
-                            
-                    #DETECTION IS FALSE BLOCK
-                except:
-                    print("detection yok")
-                    print(bbox)
-
-                print('FPS {:.1f}'.format(1 / (time.time() - stime))) 
+            print('FPS {:.1f}'.format(1 / (time.time() - stime))) 
+            cv2.line(images[i], line_1_1, line_1_2, (255, 0, 0))
+            cv2.line(images[i], line_2_1, line_2_2, (255, 0, 0))         
+            cv2.namedWindow("Video Stream", cv2.WND_PROP_FULLSCREEN)
+            cv2.setWindowProperty("Video Stream", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)            
+            cv2.imshow('Video Stream', images[i]) 
             images = []
-            print("ikinci resim")
+            
         if cv2.waitKey(1) == 27: 
             break  # esc to quit
     cv2.destroyAllWindows()        
